@@ -38,6 +38,7 @@ class StackOverflowAPI(APIView):
         Return call from stack overflow
         """
         payload = {
+            'filter': '!-.3IpPxFUhQU',
             'order' : request.GET.get("order", 'desc'),
             'sort'  : request.GET.get("sort", 'activity'),
             'site'  : request.GET.get("site", 'stackoverflow'),
