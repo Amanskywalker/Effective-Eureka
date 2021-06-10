@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from core.views import HomePage
+from core.views import HomePage, StackOverflowAPI
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', HomePage.as_view()),
+    path('api/v1/', StackOverflowAPI.as_view(), name='search')
 ]
