@@ -29,9 +29,17 @@ var search =  async function(event) {
         'q' : document.getElementById("q").value
       }
     });
+
+    if (response.status == 429){
+      alert('Rate Limit exceded')
+      return
+    }
+
     let search_result = await response.json();
 
+
     console.log(search_result)
+
 
     let html='';
 

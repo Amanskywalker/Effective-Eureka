@@ -9,6 +9,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
 
 import json
 import requests
@@ -20,12 +21,19 @@ class HomePage(View):
     def get(self, request):
         return render(request, self.template_name, {'params' : request.GET})
 
+class AnonMinThrottle(AnonRateThrottle):
+    scope = 'anon_min'
+
+class AnonDayThrottle(AnonRateThrottle):
+    scope = 'anon_day'
+
 class StackOverflowAPI(APIView):
     """
     View to get the StackOverflowAPI
 
     * Requires authentication.
     """
+    throttle_classes = [ AnonMinThrottle, AnonDayThrottle ]
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
     # permission_classes = [IsAuthenticated]
 
