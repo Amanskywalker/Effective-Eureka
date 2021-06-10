@@ -18,7 +18,7 @@ class HomePage(View):
     template_name = 'index.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        return render(request, self.template_name, {'params' : request.GET})
 
 class StackOverflowAPI(APIView):
     """
@@ -43,6 +43,8 @@ class StackOverflowAPI(APIView):
             'sort'  : request.GET.get("sort", 'activity'),
             'site'  : request.GET.get("site", 'stackoverflow'),
             'q'     : request.GET.get("q", None),
+            'page'  : request.GET.get("page", 1),
+            'pagesize' : request.GET.get("pagesize", 30)
         }
         res = requests.get(self.url, params=payload)
         return Response(json.loads(res.content.decode("utf-8")))

@@ -20,8 +20,6 @@ var search =  async function(event) {
     // prevent form default action
     event.preventDefault();
 
-    console.log('search');
-
     let response = await fetch('/api/v1', {
       method: 'GET',
       headers: {
