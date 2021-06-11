@@ -19,7 +19,8 @@ class HomePage(View):
     template_name = 'index.html'
 
     def get(self, request):
-        return render(request, self.template_name, {'params' : request.GET})
+        landing = request.GET.get('landing', True)
+        return render(request, self.template_name, {'params' : request.GET, 'landing' : landing})
 
 class AnonMinThrottle(AnonRateThrottle):
     scope = 'anon_min'
