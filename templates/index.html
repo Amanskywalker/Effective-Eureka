@@ -6,9 +6,53 @@
 <main class="flex-shrink-0">
   <div class="container text-center">
     <h1 class="mt-5">Effective Eureka</h1>
-    <form class="d-flex" id="search_form"> <!--method="get" action="{% url 'search' %}"-->
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='q' id="q" value="{{ params.q }}">
-      <button class="btn btn-outline-success" type="submit">Search</button>
+    <form id="search_form"> <!--method="get" action="{% url 'search' %}"-->
+      <div class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='q' id="q" value="{{ params.q }}">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </div>
+      <br/>
+      Advanced Option
+      <br/>
+      <br/>
+      <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <input class="form-control" type="number" placeholder="Page" aria-label="Page" name='page' id="page" value="{{ params.page }}">
+        </div>
+        <div class="col-auto">
+          <input class="form-control" type="number" placeholder="Page Size" aria-label="Page Size" name='pagesize' id="pagesize" value="{{ params.pagesize }}">
+        </div>
+        <div class="col-auto d-flex">
+          <lable>Order</lable>
+          <select class="form-select" aria-label="Order" name="order">
+            <option
+            {% if params.order == 'desc' %}
+              selected
+            {% endif %}
+            value="desc">Desc</option>
+            <option
+            {% if params.order == 'asc' %}
+            selected
+            {% endif %}
+            value="asc">Asc</option>
+          </select>
+        </div>
+        <div class="col-auto">
+            <input class="form-control" type="number" placeholder="Answers" aria-label="Answers" name='answers' id="answers" value="{{ params.answers }}" data-bs-toggle="tooltip" data-bs-placement="top" title="the minimum number of answers returned questions must have.">
+        </div>
+        <div class="col-auto">
+            <input class="form-control" type="text" placeholder="Body" aria-label="Body" name='body' id="body" value="{{ params.body }}" data-bs-toggle="tooltip" data-bs-placement="top" title="text which must appear in returned question's bodies.">
+        </div>
+        <div class="col-auto">
+            <input class="form-control" type="text" placeholder="Tagged" aria-label="tagged" name='tagged' id="tagged" value="{{ params.tagged }}" data-bs-toggle="tooltip" data-bs-placement="top" title="a semicolon delimited list of tags, of which at least one will be present on all returned questions.">
+        </div>
+        <div class="col-auto">
+            <input class="form-control" type="text" placeholder="Title" aria-label="Title" name='title' id="title" value="{{ params.title }}" data-bs-toggle="tooltip" data-bs-placement="top" title="text which must appear in returned question's titles.">
+        </div>
+        <div class="col-auto">
+            <input class="form-control" type="number" placeholder="Views" aria-label="Views" name='views' id="views" value="{{ params.views }}" data-bs-toggle="tooltip" data-bs-placement="top" title="the minimum number of views returned questions must have.">
+        </div>
+      </div>
     </form>
   </div>
   <div class="container hide" id="result_cards">
@@ -19,6 +63,11 @@
         <li class="page-item disabled">
           <a class="page-link" href="#" aria-disabled="true" id="previous_arrow">Previous</a>
         </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
         <li class="page-item">
           <a class="page-link" href="#" id="next_arrow">Next</a>
         </li>

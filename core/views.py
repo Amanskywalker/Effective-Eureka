@@ -30,8 +30,6 @@ class AnonDayThrottle(AnonRateThrottle):
 class StackOverflowAPI(APIView):
     """
     View to get the StackOverflowAPI
-
-    * Requires authentication.
     """
     throttle_classes = [ AnonMinThrottle, AnonDayThrottle ]
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -46,13 +44,20 @@ class StackOverflowAPI(APIView):
         Return call from stack overflow
         """
         payload = {
-            'filter': '!-.3IpPxFUhQU',
-            'order' : request.GET.get("order", 'desc'),
-            'sort'  : request.GET.get("sort", 'activity'),
-            'site'  : request.GET.get("site", 'stackoverflow'),
-            'q'     : request.GET.get("q", None),
-            'page'  : request.GET.get("page", 1),
-            'pagesize' : request.GET.get("pagesize", 30)
+            'filter'    : '!6W.6dPFDcrAXr',
+            'order'     : request.GET.get("order", 'desc'),
+            'sort'      : request.GET.get("sort", 'activity'),
+            'site'      : request.GET.get("site", 'stackoverflow'),
+            'q'         : request.GET.get("q", None),
+            'page'      : request.GET.get("page", 1),
+            'pagesize'  : request.GET.get("pagesize", 30),
+            'answers'   : request.GET.get("answers", None),
+            'body'      : request.GET.get("body", None),
+            'tagged'    : request.GET.get("tagged", None),
+            'title'     : request.GET.get("title", None),
+            'views'     : request.GET.get("views", None),
+
         }
         res = requests.get(self.url, params=payload)
-        return Response(json.loads(res.content.decode("utf-8")))
+        print(res.url)
+        return Response(json.loads(res.content.decode("utf-8")), status=200)

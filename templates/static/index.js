@@ -15,39 +15,56 @@ function result_card_html(obj) {
     return html;
 }
 
+async function mount_result(search_result){
+  // generate the result cards and put it in html body
+  let html='';
+
+  for( let i=0; i<search_result.items.length; i++){
+      html += result_card_html(search_result.items[i]);
+  }
+
+  document.getElementById("result_cards").innerHTML=html;
+}
+
+async function execute_search(){
+  // take the params and execute the search
+  let response = await fetch('/api/v1?'+ new URLSearchParams(
+      {
+        'q'         : document.getElementById("q").value,
+        'page'      : document.getElementById("page").value,
+        'pagesize'  : document.getElementById("pagesize").value,
+        'answers'   : document.getElementById("answers").value,
+        'body'      : document.getElementById("body").value,
+        'tagged'    : document.getElementById("tagged").value,
+        'title'     : document.getElementById("title").value,
+        'views'     : document.getElementById("views").value,
+      }
+    ),
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+  });
+
+  if (response.status == 429){
+    alert('Rate Limit exceded')
+    return
+  }
+
+  let search_result = await response.json();
+
+  return search_result;
+}
+
 // search function
 var search =  async function(event) {
     // prevent form default action
     event.preventDefault();
 
-    let response = await fetch('/api/v1', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      params : {
-        'q' : document.getElementById("q").value
-      }
-    });
-
-    if (response.status == 429){
-      alert('Rate Limit exceded')
-      return
-    }
-
-    let search_result = await response.json();
-
-
-    console.log(search_result)
-
-
-    let html='';
-
-    for( let i=0; i<search_result.items.length; i++){
-        html += result_card_html(search_result.items[i]);
-    }
-
-    document.getElementById("result_cards").innerHTML=html;
+    search_result = await execute_search();
+    console.log(search_result);
+    mount_result(search_result);
 };
 
 // form
